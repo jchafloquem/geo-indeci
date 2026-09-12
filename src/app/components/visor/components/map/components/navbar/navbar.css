@@ -1,0 +1,10 @@
+:host {
+    display: block;
+}
+
+.cash-register-font {
+    font-family: 'DSEG7-Classic', 'Courier New', Courier, monospace;
+    color: #2d780e; /* verde municipal */
+    text-shadow: 0 0 5px rgba(45, 120, 14, 0.2);
+    letter-spacing: 0.05em;
+}
