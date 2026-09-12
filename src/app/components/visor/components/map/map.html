@@ -19,8 +19,7 @@
 <div #mapContainer id="mapContainer" class="map-container" [class.blank-base]="mapService.baseLayerType() === 'blanco'">
 </div>
 <app-funciones></app-funciones>
+<app-coordinate-info></app-coordinate-info>
+<!-- Modal global de Términos y Condiciones (se muestra al hacer zoom sobre el distrito) -->
+<app-terminos></app-terminos>
 
-<!-- Logo institucional del visor: esquina inferior izquierda,
-     desplazado a la derecha del sidebar (w-12) para no superponerse -->
-<img src="/assets/images/logo_visor.png" alt="Logo San Isidro" draggable="false"
-  class="absolute left-16 bottom-6 z-5 h-20 w-auto pointer-events-none select-none filter-[drop-shadow(0_0_12px_rgba(255,255,255,0.7))]" />
