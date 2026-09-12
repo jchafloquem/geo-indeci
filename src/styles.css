@@ -4,8 +4,8 @@
 
 @theme {
   /* Definición de colores para v4 */
-  --color-primary: #F54927;
-  --color-secondary: #ffff;
+  --color-primary: #0063A2;
+  --color-secondary: #FF8200;
   --font-family-poppins: "Poppins", sans-serif;
   --font-arial: Arial, Helvetica, sans-serif;
 }
@@ -20,7 +20,7 @@
   background: #ffffff;
   color: #000000;
   border-radius: 12px;
-  box-shadow: 0 10px 60px rgba(70, 87, 15, 0.5), 0 0 0 1px rgba(70, 87, 15, 0.15);
+  box-shadow: 0 10px 60px rgba(0, 87, 99, 162), 0 0 0 1px rgba(70, 87, 15, 0.15);
   padding: 20px;
   max-width: 340px;
 }
@@ -63,7 +63,6 @@
 .driver-popover-next-btn,
 .driver-popover-prev-btn {
   background: linear-gradient(135deg, #2b96d7 0%, #1e7bb8 100%);
-  color: #ffffff;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
