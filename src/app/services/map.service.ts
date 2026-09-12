@@ -40,7 +40,8 @@ import {
   SAN_ISIDRO_CENTER,
   SAN_ISIDRO_ZOOM,
   SAN_ISIDRO_EXTENT,
-  TERMS_ZOOM_DISTRICTO
+  TERMS_ZOOM_DISTRICTO,
+  PERU_EXTENT
 } from '../interfaces/mapas.config';
 import {
   BaseLayer,
@@ -1106,16 +1107,16 @@ export class MapService {
     this.goToCoordinates(SAN_ISIDRO_CENTER[1], SAN_ISIDRO_CENTER[0], SAN_ISIDRO_ZOOM, duration, onComplete);
   }
   /**
-   * Centra el mapa en la extensión inicial del distrito sin activar el resaltado.
+   * Centra el mapa en la extensión de Perú completo.
    * Ideal para el botón "home" o vistas iniciales.
    */
   goToDistrito(duration = ANIMATION_DURATION / 2): void {
     const map = this._map();
     if (!map) return;
     const view = map.getView();
-    const transformedExtent = transformExtent(SAN_ISIDRO_EXTENT, 'EPSG:32718', view.getProjection());
+    const transformedExtent = transformExtent(PERU_EXTENT, 'EPSG:4326', view.getProjection());
     this.cambiarMapaBase('blanco');
-    view.fit(transformedExtent, { duration, padding: [20, 20, 20, 20] });
+    view.fit(transformedExtent, { duration, padding: [40, 40, 40, 40] });
   }
   /**
    * Muestra el modal global de Términos y Condiciones.
