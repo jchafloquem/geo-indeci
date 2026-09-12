@@ -37,7 +37,6 @@ import {
   OSM_URL,
   TRAMA_WMS_URL,
   ANIMATION_DURATION,
-  SAN_ISIDRO_CENTER,
   SAN_ISIDRO_ZOOM,
   SAN_ISIDRO_EXTENT,
   TERMS_ZOOM_DISTRICTO,
@@ -325,7 +324,7 @@ export class MapService {
    */
   private termsTriggerArmed = true;
   /** Indica si el mapa está en medio de una animación de navegación programática. */
-  
+
   isNavigating = signal(false);
   /** Overlay para el marcador de búsqueda */
   private searchMarkerOverlay: Overlay | undefined;
@@ -401,6 +400,10 @@ export class MapService {
       })
     });
     this._map.set(olMap);
+    // Ajustar la vista para mostrar todo el Perú al cargar
+    const view = olMap.getView();
+    const peruExtentProjected = transformExtent(PERU_EXTENT, 'EPSG:4326', view.getProjection());
+    view.fit(peruExtentProjected, { padding: [40, 40, 40, 40] });
     olMap.getViewport().style.cursor = 'pointer';
     this.setupInitialWmsLayers();
     this.handleMapResizing(olMap);
@@ -1097,27 +1100,7 @@ export class MapService {
     const res = transform(shifted, 'EPSG:3857', 'EPSG:4326') as [number, number];
     return res;
   }
-  /**
-   * Centra y acerca el mapa al distrito de San Isidro usando la constante
-   * `SAN_ISIDRO_CENTER`. Esta función mantiene compatibilidad con llamadas
-   * previas que no pasan explícitamente lat/lon.
-   */
-  goToSanIsidro(duration = 1800, onComplete?: (complete: boolean) => void): void {
-    // Usamos goToCoordinates para una animación de "vuelo" más suave.
-    this.goToCoordinates(SAN_ISIDRO_CENTER[1], SAN_ISIDRO_CENTER[0], SAN_ISIDRO_ZOOM, duration, onComplete);
-  }
-  /**
-   * Centra el mapa en la extensión de Perú completo.
-   * Ideal para el botón "home" o vistas iniciales.
-   */
-  goToDistrito(duration = ANIMATION_DURATION / 2): void {
-    const map = this._map();
-    if (!map) return;
-    const view = map.getView();
-    const transformedExtent = transformExtent(PERU_EXTENT, 'EPSG:4326', view.getProjection());
-    this.cambiarMapaBase('blanco');
-    view.fit(transformedExtent, { duration, padding: [40, 40, 40, 40] });
-  }
+
   /**
    * Muestra el modal global de Términos y Condiciones.
    */
@@ -1562,31 +1545,6 @@ export class MapService {
       map((response) => {
         if (response?.features?.length > 0) {
           return response.features;
-        }
-        return null;
-      })
-    );
-  }
-  /**
-   * Busca un lote por su Código Único Catastral (CUC) consultando el servicio WFS de GeoServer.
-   * @param cuc Código Único Catastral
-   * @returns Observable con el feature encontrado o null
-   */
-  searchLoteByCuc(cuc: string): Observable<GeoJSONFeature | null> {
-    const url = environment.geoserver.owsUrl;
-    const cucLimpio = cuc.trim();
-    const params = new HttpParams()
-      .set('service', 'WFS')
-      .set('version', '1.1.0')
-      .set('request', 'GetFeature')
-      .set('typeName', 'mdsibde2026:vw_tg_lote')
-      .set('outputFormat', 'application/json')
-      .set('srsName', 'EPSG:32718')
-      .set('cql_filter', `cuc = '${cucLimpio}'`);
-    return this.http.get<WfsResponse>(url, { params }).pipe(
-      map((response) => {
-        if (response?.features?.length > 0) {
-          return response.features[0];
         }
         return null;
       })

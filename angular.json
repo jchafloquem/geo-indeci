@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "visor-mdsi": {
+    "visor-indeci": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -58,15 +58,15 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "buildTarget": "visor-mdsi:build",
+            "buildTarget": "visor-indeci:build",
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "buildTarget": "visor-mdsi:build:production"
+              "buildTarget": "visor-indeci:build:production"
             },
             "development": {
-              "buildTarget": "visor-mdsi:build:development"
+              "buildTarget": "visor-indeci:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +74,7 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "buildTarget": "visor-mdsi:build:development",
+            "buildTarget": "visor-indeci:build:development",
             "tsConfig": "tsconfig.spec.json",
             "runner": "vitest",
             "setupFiles": ["src/test-setup.ts"]

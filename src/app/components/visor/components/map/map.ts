@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, inject, ChangeDetectorRef, effect, HostListener, signal, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, inject, ChangeDetectorRef, HostListener, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 // Servicios y módulos
@@ -27,7 +27,7 @@ import { Dashboard } from '../dashboard/dashboard';
   imports: [
     CommonModule,
     Navbar,
-    Sidebar,    
+    Sidebar,
     Funciones,
     Login, // Add Login to imports
     Spinner,
@@ -47,6 +47,8 @@ export class MapComponent {
   @ViewChild(Funciones) funcionesComponent!: Funciones;
 
   public showLoginModal = signal(false);
+  /** Controla la visibilidad de la pantalla de carga (máximo 3 segundos) */
+  showLoadingScreen = signal(true);
   /** Controla la visibilidad del Dashboard de servicios temáticos. */
   public dashboardVisible = signal(false);
   /** Abre el Dashboard de Conformidad de Obra. */
@@ -81,17 +83,10 @@ export class MapComponent {
   private manzanaDragState: { startX: number; startY: number; originX: number; originY: number } | null = null;
 
   constructor() {
-    // Usamos un 'effect' para reaccionar a los cambios de la signal 'isReady'.
-    // El effect debe crearse en el constructor para tener un contexto de inyección.
-    effect(() => {
-      if (this.mapService.isReady()) {
-        setTimeout(() => {
-          this.funcionesComponent.goHome();
-          // Eliminamos la capa del INEI después de la animación inicial
-          this.mapService.removeLayerById('ig_departamento');
-        }, 2000); // 5 segundos
-      }
-    });
+    // Ocultar la pantalla de carga después de 3 segundos
+    setTimeout(() => {
+      this.showLoadingScreen.set(false);
+    }, 3000);
 
     // afterNextRender asegura que el mapa se inicialice solo en el cliente (navegador)
     afterNextRender(() => this.initMap());
@@ -105,44 +100,10 @@ export class MapComponent {
     const map = this.mapService.initMap(this.mapContainer.nativeElement);
     // Una vez que el mapa está inicializado, lo pasamos al servicio de dibujo
     this.drawMeasureService.inicializar(map);
-
     this.cdr.detectChanges();
   }
 
-  /**
-   * Escucha la tecla 'Escape' a nivel de documento para cerrar el modal.
-   * @param event El evento de teclado.
-   */
-  @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    if (this.mapService.loteInfoWindows().length > 0) {
-      this.mapService.closeLastLoteWindow();
-    }
-    if (this.mapService.fotoDroneUrl2018()) {
-      this.closeFotoDroneModal2018();
-    }
-    if (this.mapService.fotoDroneUrl2024()) {
-      this.closeFotoDroneModal2024();
-    }
-    if (this.mapService.ptoGeodesicoUrl()) {
-      this.closePtoGeodesicoModal();
-    }
-    if (this.mapService.arboladoUrbano2015Url()) {
-      this.closeArboladoUrbano2015Modal();
-    }
-    if (this.mapService.tusneUrl()) {
-      this.closeTusneModal();
-    }
-    if (this.mapService.cruceAccesibilidadUrl()) {
-      this.closeCruceAccesibilidadModal();
-    }
-    if (this.mapService.cruceAccesibilidadManzanaUrl()) {
-      this.closeCruceAccesibilidadManzanaModal();
-    }
-    if (this.mapService.showTermsModal()) {
-      this.mapService.closeTermsModal();
-    }
-  }
+
   /** Estado interno del arrastre de una ventana de lote */
   private loteDragState: { id: string; startX: number; startY: number; originX: number; originY: number } | null = null;
 

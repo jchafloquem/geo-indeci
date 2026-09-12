@@ -1,4 +1,4 @@
-@if (!mapService.isReady()) {
+@if (showLoadingScreen()) {
 <div class="fixed inset-0 z-99999 flex flex-col items-center justify-center">
   <img src="assets/images/fondo.jpg" alt="Fondo" class="absolute inset-0 w-full h-full object-cover grayscale">
   <div class="absolute inset-0 bg-black/70"></div>
@@ -22,4 +22,3 @@
 <app-coordinate-info></app-coordinate-info>
 <!-- Modal global de Términos y Condiciones (se muestra al hacer zoom sobre el distrito) -->
 <app-terminos></app-terminos>
-

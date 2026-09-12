@@ -1,11 +1,11 @@
 import { Component, Input, signal, output, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MapService } from '@app/services/map.service';
+import { MapService , ViaNumero, ViaSugerencia } from '@app/services/map.service';
 import { AuthService } from '@app/services/auth.service';
 import { Subject, take, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 import { GeoJSONFeature, GeoJSONGeometry, SearchResult } from '@app/interfaces/geoLayers';
-import { ViaNumero, ViaSugerencia } from '@app/services/map.service';
+
 
 @Component({
   selector: 'app-consultas',
@@ -227,8 +227,8 @@ export class Consultas {
     const clearActions: Record<typeof this.activeTab, () => void> = {
       cuc: () => this.cuc = '',
       predial: () => this.codigoPredial = '',
-      direccion: () => {        
-        this.nombreVia = '';        
+      direccion: () => {
+        this.nombreVia = '';
       },
       habilitacion: () => {
         this.nombreHabilitacion = '';
@@ -238,7 +238,7 @@ export class Consultas {
       titular: () => this.codigoTitular = '',
       denominacion: () => this.denominacionPredio = '',
       parque: () => this.nombreParque = '',
-      catastral: () => this.codigoCatastral = '',      
+      catastral: () => this.codigoCatastral = '',
     };
 
     if (clearActions[this.activeTab]) {
@@ -256,8 +256,8 @@ export class Consultas {
       case 'direccion':
         return this.nombreVia.trim().length === 0;
       case 'habilitacion':
-        return this.nombreHabilitacion.trim().length === 0 || 
-               this.manzanaUrbana.trim().length === 0 || 
+        return this.nombreHabilitacion.trim().length === 0 ||
+               this.manzanaUrbana.trim().length === 0 ||
                this.loteUrbano.trim().length === 0;
       case 'titular':
         return this.codigoTitular.trim().length === 0;
@@ -266,7 +266,7 @@ export class Consultas {
       case 'parque':
         return this.nombreParque.trim().length === 0;
       case 'catastral':
-        return this.codigoCatastral.length < 10; // 8 dígitos + 2 guiones      
+        return this.codigoCatastral.length < 10; // 8 dígitos + 2 guiones
       default:
         return true;
     }
@@ -546,10 +546,10 @@ export class Consultas {
               fotoFrontis: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80",
               numeroPisos: props['pisos'] ?? 1,
               geometry: feature.geometry
-            };            
+            };
             // Navegamos al polígono encontrado automáticamente
             this.mapService.fitToGeometry(feature.geometry, 'EPSG:32718', undefined, true);
-            this.mapService.drawSearchMarker(feature.geometry);            
+            this.mapService.drawSearchMarker(feature.geometry);
             this.emitResult(result);
           } else {
             this.searchError.set('No se encontró el lote con el código ingresado.');
@@ -557,37 +557,6 @@ export class Consultas {
         },
         error: (err) => {
           console.error('Error en la búsqueda catastral:', err);
-          this.searchError.set('Error de conexión con el servicio catastral.');
-          this.loading.set(false);
-        }
-      });
-    } else if (this.activeTab === 'cuc') {
-      this.loading.set(true);
-      this.searchError.set(null);
-      this.mapService.searchLoteByCuc(this.cuc).pipe(take(1)).subscribe({
-        next: (feature) => {
-          this.loading.set(false);
-          if (feature) {
-            const props = feature.properties as any;
-            const result: SearchResult = {
-              codigoCatastral: String(props['id_lote'] || 'N/A').trim(),
-              direccion: props['direccion'] ?? props['ubicacion'] ?? "Ubicación no disponible",
-              propietario: props['propietario'] ?? "Información reservada",
-              area: props['area_lote'] ? `${props['area_lote']} m²` : "No disponible",
-              zonificacion: props['zonificacion'] ?? "No disponible",
-              fotoFrontis: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&q=80",
-              numeroPisos: props['pisos'] ?? 1,
-              geometry: feature.geometry
-            };
-            this.mapService.fitToGeometry(feature.geometry, 'EPSG:32718', undefined, true);
-            this.mapService.drawSearchMarker(feature.geometry, `CUC encontrado: ${this.cuc}`);
-            this.emitResult(result);
-          } else {
-            this.searchError.set('No se encontró el lote con el CUC ingresado.');
-          }
-        },
-        error: (err) => {
-          console.error('Error en la búsqueda por CUC:', err);
           this.searchError.set('Error de conexión con el servicio catastral.');
           this.loading.set(false);
         }
@@ -631,7 +600,7 @@ export class Consultas {
             this.loading.set(false);
           }
       });
-    }  
+    }
   }
 
   selectParqueSuggestion(parque: GeoJSONFeature) {

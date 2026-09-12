@@ -68,7 +68,7 @@ graph TB
   %% COMPONENTES
   %% =========================
   subgraph "Cliente Web"
-    FRONT[Geovisor-MDSI]
+    FRONT[Geovisor-INDECI]
   end 
 
   subgraph "Auth"
@@ -80,11 +80,11 @@ graph TB
   end
 
   subgraph "Bases de Datos PostgreSQL"
-    DB1[(MDSIBDE - 192.168.40.57:5432)]
+    DB1[(INDECIBDE - 192.168.40.57:5432)]
   end
 
   subgraph "Bases de Datos ArcGIS"
-    DB2[(MDSIBDE - 192.168.40.57:5433)]
+    DB2[(INDECIBDE - 192.168.40.57:5433)]
   end
   
   subgraph "Servidor de Mapas"
@@ -143,10 +143,10 @@ graph TB
 
 [Local](http://localhost:4200/)
 
-[Desarrollo](http://192.168.40.58:80)
+[Desarrollo]()
 
-[Producción - IP](http://192.168.40.58:80)
+[Producción - IP]()
 
-[Producción - URL](https://visor.mdsi.gob.pe/)
+[Producción - URL]()
 
-[Producción - GeoServer](https://geoserver.mdsi.gob.pe/)
+[Producción - GeoServer]()

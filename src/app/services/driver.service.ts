@@ -137,15 +137,6 @@ export class DriverService {
           description: 'Reduce el nivel de zoom para ver una área más amplia.',
         },
       },
-      {/* 14. Vista general - Panel derecho */
-        element: '#btn-home',
-        popover: {
-          side: 'right',
-          align: 'center',
-          title: 'Vista general',
-          description: 'Restablece la vista del mapa a la extensión inicial del distrito.',
-        },
-      },
       {/* 15. Geolocalización - Panel derecho */
         element: '#btn-geolocalizacion',
         popover: {

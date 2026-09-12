@@ -19,7 +19,7 @@ describe('App', () => {
 
   it('renderiza el outlet de enrutamiento principal', async () => {
     // Nota: la plantilla real de App es <router-outlet/>; la aserción del
-    // scaffolding ("Hello, visor-mdsi") quedó obsoleta tras el refactor.
+    // scaffolding ("Hello, visor-indeci") quedó obsoleta tras el refactor.
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
@@ -29,6 +29,6 @@ describe('App', () => {
   it('expone el título de la aplicación', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance as unknown as { title(): string };
-    expect(app.title()).toBe('visor-mdsi');
+    expect(app.title()).toBe('visor-indeci');
   });
 });

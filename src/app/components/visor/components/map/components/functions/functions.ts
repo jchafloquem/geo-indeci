@@ -51,10 +51,6 @@ export class Funciones {
     });
   }
 
-  goHome(): void {
-    this.mapService.goToDistrito();
-  }
-
   getCurrentLocation(): void {
     if (!navigator.geolocation) {
       alert('La geolocalización no es compatible con este navegador.');
