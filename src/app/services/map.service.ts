@@ -19,7 +19,7 @@ export interface ViaSugerencia {
   etiqueta: string;
   codVia: string;
 }
-import { ORTOFOTO_YEARS } from '../interfaces/ortofotos';
+
 import { LAYER_PANEL_SECTIONS } from '../interfaces/controlCapasConfig';
 import {
   Section,
@@ -29,7 +29,7 @@ import {
   WfsResponse,
   GeoJSONGeometry
 } from '../interfaces/geoLayers';
-import { INITIAL_WMS_LAYERS } from '../interfaces/capasWMS.config';
+
 import {
   INITIAL_CENTER,
   INITIAL_ZOOM,
@@ -117,7 +117,7 @@ export class MapService {
   private readonly zone = inject(NgZone);
   private readonly drawMeasureService = inject(DrawMeasureService);
   private readonly authService = inject(AuthService);
-  baseLayerType = signal<TipoMapaBase>('streets');
+  baseLayerType = signal<TipoMapaBase>('satellite');
   /** Instancia del mapa OpenLayers */
   private readonly _map = signal<OlMap | undefined>(undefined);
   /** Exposición del mapa como Signal de solo lectura */
@@ -136,11 +136,7 @@ export class MapService {
    * Esta será la única fuente de verdad para generar tanto los
    * controles en el panel de capas como las capas XYZ en el mapa.
    */
-  private readonly ortofotoLayerConfigs = [
-    // Generamos dinámicamente la configuración a partir de la lista de años importada.
-    // Esto facilita la adición de nuevos años de ortofotos.
-    ...ORTOFOTO_YEARS.map(year => ({ year, zIndex: 5 }))
-  ] as const;
+
   /**
    * Signal que gestiona las secciones y capas del visor.
    */
@@ -507,18 +503,15 @@ export class MapService {
       zIndex: 5, // zIndex para posicionarse sobre el mapa base
       title: 'Departamento del Perú',
     });
-
-    // Añadimos las capas de ortofotos como XYZ usando la configuración centralizada
-    this.ortofotoLayerConfigs.forEach(config => {
-      this.addXyzLayer({
-        id: `ortofoto_${config.year}`,
-        url: `${environment.ortofotoServerUrl}/${config.year}/{z}/{x}/{y}.png`,
-        maxZoom: 22,
-        zIndex: config.zIndex
-      });
+    // Capa WMS de departamentos del INEI (geoserver público, vía proxy local para evitar CORS)
+    this.addWmsLayer({
+      id: 'inei_departamentos',
+      url: '/inei-geoserver/geoserver/Interoperabilidad/wms',
+      layerName: 'Interoperabilidad:ig_departamento',
+      version: '1.1.0',
+      zIndex: 4,
+      title: 'Departamentos INEI',
     });
-    // Inicializamos las capas catastrales recorriendo la lista
-    INITIAL_WMS_LAYERS.forEach(config => this.addWmsLayer(config));
   }
   /**
    * Asegura que el mapa se actualice fuera de la zona de Angular para rendimiento.

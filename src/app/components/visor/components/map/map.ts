@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, afterNextRender, inject, ChangeDetectorRef, HostListener, signal, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, ViewChild, afterNextRender, inject, ChangeDetectorRef, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 // Servicios y módulos
@@ -10,11 +10,9 @@ import { Navbar } from './components/navbar/navbar';
 import { Sidebar } from './components/sidebar/sidebar';
 import { Funciones } from './components/functions/functions';
 import { Spinner } from '../../../../animations/spinner/spinner';
-import { Login } from '../../../auth/components/login/login'; // Import Login component
 import { CoordinateInfo } from './components/coordinate-info/coordinate-info';
 import { TermsModal } from './components/terminos/terminos';
-import { Leyenda } from './components/sidebar/components/leyenda/leyenda';
-import { Dashboard } from '../dashboard/dashboard';
+
 /**
  * Componente principal de la interfaz del mapa.
  * Coordina la visualización de la barra de herramientas, barra lateral y los controles
@@ -29,12 +27,9 @@ import { Dashboard } from '../dashboard/dashboard';
     Navbar,
     Sidebar,
     Funciones,
-    Login, // Add Login to imports
     Spinner,
     CoordinateInfo,
     TermsModal,
-    Leyenda,
-    Dashboard,
   ],
   templateUrl: './map.html',
   styleUrl: './map.css',

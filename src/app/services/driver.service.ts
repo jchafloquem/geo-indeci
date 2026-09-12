@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+﻿import { Injectable, signal } from '@angular/core';
 import { driver, type Driver, type DriveStep } from 'driver.js';
 /**
  * Servicio singleton que envuelve la factory `driver()` de driver.js 1.8.x.
@@ -40,15 +40,6 @@ export class DriverService {
           side: 'bottom',
           title: 'Geovisor Catastral',
           description: 'Nombre principal del geovisor del ámbito catastral municipal.',
-        },
-      },
-      {/* 3. Contador de visitas - Navbar derecha */
-        element: '#visit-counter',
-        popover: {
-          side: 'bottom',
-          align: 'end',
-          title: 'Visitas',
-          description: 'Contador de visitas al geovisor. Cada carga de la página incrementa el contador.',
         },
       },
       {/* 4. Menú de Herramientas - Navbar derecha (Tour / Dashboard / Observatorio) */

@@ -1,5 +1,4 @@
 import { LayerItem, Section, SubSection } from './geoLayers';
-import { ORTOFOTO_YEARS } from './ortofotos';
 
 /* ------------------------------------------------------------------------- */
 /*  Fábricas declarativas                                                     */
@@ -24,7 +23,7 @@ const capa = (id: string, label: string, opciones: CapaOpciones = {}): LayerItem
   visible: false,
   opacity: 1,
   showInLegend: false,
-  disabled: id === '' ? true : false,
+  disabled: id === '',
   ...opciones,
 });
 
@@ -76,6 +75,10 @@ const PANEL_BASE: Section[] = [
     title: 'INFORMACION CATASTRAL',
     expanded: false,
     items: [
+      /*Capas de referencia externo (INEI)*/
+      subseccion('capas_referencia', 'CAPAS DE REFERENCIA', [
+        capa('inei_departamentos', 'Departamentos INEI', { visible: true, showInLegend: true }),
+      ], true),
       /*Capas de la base grafica*/
       subseccion('base_grafica', 'BASE GRÁFICA', [
         capa('num_cuadra', 'Cuadra', { visible: true, showInLegend: true }),
@@ -152,17 +155,7 @@ const PANEL_BASE: Section[] = [
     id: 'imaAereas',
     title: 'IMÁGENES AEREAS',
     expanded: false,
-    items: [
-      // Capas generadas dinámicamente a partir de la configuración de años.
-      // La regla "solo una ortofoto visible" vive en MapService.toggleLayerVisibility.
-      subseccion('ortofotos_historicas', 'Ortofotos Históricas', [
-        ...ORTOFOTO_YEARS.map(year => capa(`ortofoto_${year}`, `${year}`)),
-      ], false, { requiresAuth: false }),
-      subseccion('fotos_sin_procesar', 'Fotos sin Procesar', [
-        capa('fotos_sin_2018', 'Fotos sin Procesar - 2018', { visible: false, showInLegend: false }),
-        capa('fotos_sin_2024', 'Fotos sin Procesar - 2024', { visible: false, showInLegend: false }),
-      ], false, { requiresAuth: true }),
-    ],
+    items: [],
   },
   {
     id: 'normativaUrbana',

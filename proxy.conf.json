@@ -31,5 +31,18 @@
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
+  },
+  "/inei-geoserver": {
+    "target": "https://geoespacial.inei.gob.pe",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/inei-geoserver": ""
+    },
+    "headers": {
+      "Referer": "https://geoespacial.inei.gob.pe/",
+      "Origin": "https://geoespacial.inei.gob.pe"
+    }
   }
 }
