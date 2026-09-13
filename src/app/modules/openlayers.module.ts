@@ -21,7 +21,7 @@ export { default as Overlay } from 'ol/Overlay';
 export type { Positioning as OverlayPositioning } from 'ol/Overlay';
 export { default as XYZ } from 'ol/source/XYZ';
 export { default as VectorSource } from 'ol/source/Vector';
-export { defaults as defaultControls, OverviewMap, ScaleLine, FullScreen, ZoomSlider } from 'ol/control';
+export { defaults as defaultControls, OverviewMap, FullScreen, ZoomSlider } from 'ol/control';
 export { fromLonLat, transform, transformExtent } from 'ol/proj';
 export { Style, Fill, Stroke, Circle, Icon, Text } from 'ol/style';
 export { default as Feature } from 'ol/Feature';
