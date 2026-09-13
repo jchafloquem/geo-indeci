@@ -2,6 +2,56 @@
   command = "npm run build"
   publish = "dist/visor-indeci/browser"
 
+# ─────────────────────────────────────────────────────────────────────────────
+# PROXY REDIRECTS — Reenvía peticiones a servicios backend (GeoServer, INEI, etc.)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# GeoServer MSI (Producción)
+[[redirects]]
+  from = "/geoserver/*"
+  to = "http://192.168.40.58:8081/geoserver/:splat"
+  status = 200
+  force = true
+
+# GeoServer Ortofotos
+[[redirects]]
+  from = "/geoserver-orto/*"
+  to = "https://192.168.41.147:8080/geoserver/:splat"
+  status = 200
+  force = true
+
+# DataGIS (fichas catastrales, fotos, planos)
+[[redirects]]
+  from = "/DataGIS_WGS84/*"
+  to = "http://192.168.41.160/DataGIS_WGS84/:splat"
+  status = 200
+  force = true
+
+# Galería de Fotos Catastro
+[[redirects]]
+  from = "/GaleriaFotosCatastro/*"
+  to = "http://www.munisanisidro.gob.pe/GaleriaFotosCatastro/:splat"
+  status = 200
+  force = true
+
+# Web Service Geovisor
+[[redirects]]
+  from = "/WSGEOVISOR/*"
+  to = "https://test.munisanisidro.gob.pe/WSGEOVISOR/:splat"
+  status = 200
+  force = true
+
+# INEI GeoServer (público) — Requiere headers específicos
+[[redirects]]
+  from = "/inei-geoserver/*"
+  to = "https://geoespacial.inei.gob.pe/:splat"
+  status = 200
+  force = true
+  headers = { Referer = "https://geoespacial.inei.gob.pe/", Origin = "https://geoespacial.inei.gob.pe" }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SPA ROUTING — Debe ir SIEMPRE al final
+# ─────────────────────────────────────────────────────────────────────────────
 [[redirects]]
   from = "/*"
   to = "/index.html"

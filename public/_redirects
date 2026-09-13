@@ -1,1 +1,7 @@
+/geoserver/*    http://192.168.40.58:8081/geoserver/:splat   200
+/geoserver-orto/*    https://192.168.41.147:8080/geoserver/:splat   200
+/DataGIS_WGS84/*    http://192.168.41.160/DataGIS_WGS84/:splat   200
+/GaleriaFotosCatastro/*    http://www.munisanisidro.gob.pe/GaleriaFotosCatastro/:splat   200
+/WSGEOVISOR/*    https://test.munisanisidro.gob.pe/WSGEOVISOR/:splat   200
+/inei-geoserver/*    https://geoespacial.inei.gob.pe/:splat   200
 /*    /index.html   200
