@@ -17,10 +17,10 @@ import { Manual } from './components/manual/manual';
   standalone: true,
   imports: [
     About,
-    CapasComponent,    
+    CapasComponent,
     CommonModule,
     Consultas,
-    Descargaspdf,        
+    Descargaspdf,
     FormsModule,
     Imprimir,
     Manual,
@@ -30,7 +30,7 @@ import { Manual } from './components/manual/manual';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar  {  
+export class Sidebar  {
   /** Emite el estado de apertura del sidebar (true: abierto, false: cerrado) */
   @Output() onToggle = new EventEmitter<boolean>();
   public mapService = inject(MapService);
@@ -39,14 +39,14 @@ export class Sidebar  {
   isOpen = false;
   // Ítems de navegación vinculados a las herramientas del MapService
   menuItems: { id: string; icon: string; label: string}[] = [
-    { id: 'search', icon: 'bi-search', label: 'Consultas'},
+    //{ id: 'search', icon: 'bi-search', label: 'Consultas'},
     { id: 'layers', icon: 'bi-layers', label: 'Capas'},
     { id: 'legend', icon: 'bi bi-map-fill', label: 'Leyenda'},
     { id: 'coordenadas', icon: 'bi bi-geo', label: 'Busqueda por Coordenadas'},
-    { id: 'print', icon: 'bi-printer', label: 'Imprimir'},    
-    { id: 'downloads', icon: 'bi-download', label: 'Descargas'},
-    { id: 'manual', icon: 'bi-book', label: 'Manual'},
-    
+    //{ id: 'print', icon: 'bi-printer', label: 'Imprimir'},
+    //{ id: 'downloads', icon: 'bi-download', label: 'Descargas'},
+    //{ id: 'manual', icon: 'bi-book', label: 'Manual'},
+
     //{ id: 'about', icon: 'bi-info-circle', label: 'Acerca de'},
   ];
   /** Obtiene el ID de la primera herramienta activa del Set */
